@@ -7,6 +7,7 @@ Library         SeleniumLibrary
 Variables       /Users/Godzi1la/Desktop/testcourse/robotcourses/product_data.yml  
 
 
+
 *** Test Cases ***
 Test Product Purchase
 
