@@ -16,7 +16,8 @@ Test Product Purchase
 
     #step 2 เลือกสินค้า
     Select Product 
-    Verify Back Button Class    
+    ${item_price} =    Get Text    xpath://div[@class='inventory_details_price']  
+    Verify Back Button Class 
     Verify Product Added To Cart    ${product.p1.name}
 
     #step 3 ไปที่ Checkout
@@ -25,9 +26,13 @@ Test Product Purchase
     Enter Checkout Information   ${name.standard.fristname}   ${name.standard.lastname}   ${name.standard.zip}
 
     #step 4 เสร็จสิ้นการชำระเงิน
+    Wait Until Element Is Visible    xpath://div[@class='summary_subtotal_label']    10s
+    ${item_total_text} =    Get Text    xpath://div[@class='summary_subtotal_label']
+    ${item_total} =    Evaluate    '${item_total_text}'.split('$')[1].strip() if '$' in '${item_total_text}' else '0'
+    Should Be Equal As Numbers    ${item_price.replace('$', '')}    ${item_total}    
     Finish Checkout
     Verify Order Success Message    THANK YOU FOR YOUR ORDER
-
+    
     #step 5 ปิด Browser
     Close Browser
 
@@ -46,14 +51,15 @@ Login With Standard User
 Select Product
     Click Element   //*[@id="item_4_title_link"]/div
 
-Verify Back Button Class
+Verify Back Button Class 
     Wait Until Element Is Visible    xpath://*[@id="inventory_item_container"]/div/button   10s
     Element Should Be Visible    xpath://*[@id="inventory_item_container"]/div/button     10s
+    
+
 
 Verify Product Added To Cart
     [Arguments]    ${product_name}
     Element Should Be Visible    xpath://div[text()='${product_name}']
-    Click Button   //*[@id="inventory_item_container"]/div/div/div/button
 
 Go To Checkout
     Click Button   //*[@id="inventory_item_container"]/div/div/div/button
