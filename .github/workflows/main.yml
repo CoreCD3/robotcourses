@@ -32,7 +32,7 @@ jobs:
 
     - name: Run Robot Framework tests
       run: |
-        robot --outputdir results path/to/your/tests
+        robot --outputdir results homework.robot
 
     - name: Upload Robot Framework results
       uses: actions/upload-artifact@v3
